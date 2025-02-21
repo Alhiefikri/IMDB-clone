@@ -4,13 +4,13 @@
 
 IMDB Clone is a web application built using React and TypeScript that mimics the functionality of the popular IMDB website. Users can search for movies, view detailed movie information, and explore various movies based on their preferences. The application fetches data from the OMDB API, allowing users to retrieve movie details such as the plot, actors, genre, director, release date, and IMDb rating.
 
-[Preview](public/image.png)
+![Movie App Screenshot](public/image.png)
 
 ### 💻 **Live Demo**
 
 You can view the live version of the IMDB Clone application by visiting the following link:
 
-**[IMDB Clone Demo](https://www.example.com)**
+**[IMDB Clone Demo](https://imdb-clone-swart-five.vercel.app/)**
 
 ### 🎬 **Features**:
 
