@@ -1,50 +1,163 @@
-# React + TypeScript + Vite
+# **IMDB Clone Application**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📖 **Overview**
 
-Currently, two official plugins are available:
+IMDB Clone is a web application built using React and TypeScript that mimics the functionality of the popular IMDB website. Users can search for movies, view detailed movie information, and explore various movies based on their preferences. The application fetches data from the OMDB API, allowing users to retrieve movie details such as the plot, actors, genre, director, release date, and IMDb rating.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Preview](public/image.png)
 
-## Expanding the ESLint configuration
+### 💻 **Live Demo**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+You can view the live version of the IMDB Clone application by visiting the following link:
 
-- Configure the top-level `parserOptions` property like this:
+**[IMDB Clone Demo](https://www.example.com)**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 🎬 **Features**:
+
+- **Search for Movies**: Users can search for movies by title and view a list of matching results.
+- **Movie Details**: Users can click on any movie from the search results to view detailed information such as plot, genre, director, actors, release date, and IMDb rating.
+- **Responsive UI**: The application has a user-friendly interface that is fully responsive and works on both desktop and mobile devices.
+- **OMDB API Integration**: The app fetches real-time movie data using the OMDB API (Open Movie Database) with an API key.
+
+## 🔧 **Technologies Used**:
+
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A superset of JavaScript that provides optional static typing, enhancing code quality and maintainability.
+- **React Context API**: For managing and sharing global state across the application.
+- **OMDB API**: A popular API used to get real-time movie data.
+- **Tailwind Css**: For styling the app with a clean and modern look.
+
+## 🚀 **Getting Started**:
+
+To get started with the IMDB Clone application locally, follow these steps:
+
+### 1. **Clone the repository**
+
+```bash
+git clone https://github.com/alhiefikri/IMDB-clone.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. **Install dependencies**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Navigate into the project directory and install the necessary dependencies:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+cd IMDB-clone
+npm install
 ```
+
+### 3. **Start the application**
+
+Run the following command to start the development server:
+
+```bash
+npm start
+```
+
+This will start the application at `http://localhost:5173`.
+
+## 🛠️ **Functionality Breakdown**:
+
+### **1. Search Movies:**
+
+- Users can search for movies by typing the movie title in the search bar.
+- The app fetches the search results from the OMDB API and displays a list of matching movies, each showing the title, year, and poster.
+
+### **2. View Movie Details:**
+
+- By clicking on any movie from the search results, users can view the detailed information of that movie.
+- Details include the plot, genre, director, actors, release date, and IMDb rating.
+
+### **3. Context Management:**
+
+- The application uses React's Context API to manage the global state, which includes the list of movies and the currently selected movie.
+- The `MovieProvider` component wraps the application and provides the context to all child components.
+
+### **4. API Integration:**
+
+- The application fetches movie data from the OMDB API using the `searchMovies` and `getMovieDetails` functions, handling both search requests and fetching detailed movie information based on the selected movie ID.
+
+## 📁 **File Structure**:
+
+```
+src/
+├── api/                # Contains API interaction functions (omdbApi.ts)
+├── components/         # React components like MovieList, MovieDetails, etc.
+├── context/            # Contains the MovieContext and MovieProvider
+├── App.tsx             # The main application component
+├── index.tsx           # Entry point for React application
+├── styles/             # Contains CSS or styled-components for the app
+```
+
+## 🧑‍💻 **Code Snippets**:
+
+### **Movie Context & Provider**:
+
+```typescript
+export const MovieProvider = ({ children }: MovieProviderProps) => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<MovieDetail | null>(null);
+
+  const searchMoviesHandler = async (query: string) => {
+    const result = await searchMovies(query);
+    setMovies(result || []);
+  };
+
+  const selectMovieHandler = async (id: string) => {
+    const movieDetails = await getMovieDetails(id);
+    setSelectedMovie(movieDetails);
+  };
+
+  const closeMovieHandler = () => {
+    setSelectedMovie(null);
+  };
+
+  return (
+    <MovieContext.Provider
+      value={{
+        movies,
+        selectedMovie,
+        searchMovies: searchMoviesHandler,
+        selectMovie: selectMovieHandler,
+        closeMovie: closeMovieHandler,
+      }}
+    >
+      {children}
+    </MovieContext.Provider>
+  );
+};
+```
+
+### **Search Movies API Call**:
+
+```typescript
+export const searchMovies = async (query: string) => {
+  const response = await fetch(`${BASE_URL}?s=${query}&apikey=${API_KEY}`);
+  const data = await response.json();
+  return data.Search;
+};
+```
+
+## 💡 **Contributing**:
+
+Contributions to the IMDB Clone application are always welcome! If you'd like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-xyz`).
+3. Make your changes and commit them (`git commit -am 'Add new feature'`).
+4. Push to your branch (`git push origin feature-xyz`).
+5. Create a pull request.
+
+## 📜 **License**:
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 **Acknowledgements**:
+
+- OMDB API for providing the movie data.
+- React and TypeScript community for creating such awesome tools!
+- Special thanks to the open-source contributors who made this project possible!
+
+---
+
+**Enjoy exploring the world of movies with the IMDB Clone app! 🎬**

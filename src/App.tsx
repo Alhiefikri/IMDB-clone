@@ -1,17 +1,11 @@
-import MovieList from "./components/MovieList";
-import MovieModal from "./components/MovieModal";
-import SearchBar from "./components/SearchBar";
+import { MovieProvider } from "./context/MovieContext";
+import Home from "./page/Home";
 
 function App() {
-  const selectedMovie = false;
-
   return (
-    <div className="min-h-screen bg-black text-white">
-      <SearchBar />
-      <MovieList />
-
-      {selectedMovie && <MovieModal />}
-    </div>
+    <MovieProvider>
+      <Home />
+    </MovieProvider>
   );
 }
 
